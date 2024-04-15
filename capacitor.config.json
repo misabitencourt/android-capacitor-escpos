@@ -1,0 +1,11 @@
+{
+  "appId": "br.example.misabitencourt.androidcapacitorescpos",
+  "appName": "android-capacitor-escpos",
+  "bundledWebRuntime": false,
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}

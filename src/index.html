@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Awesome Capacitor App</title>
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <script
+      type="module"
+      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"
+    ></script>
+
+    <link rel="icon" type="image/x-icon" href="./assets/icon/favicon.ico" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <meta name="theme-color" content="#31d53d" />
+  </head>
+  <body>
+    <!-- <capacitor-welcome></capacitor-welcome> -->
+
+    <div class="escpos-app">
+      <h1>Print test</h1>
+      <textarea id="text-editor" cols="30" rows="10">
+        [C]<u><font size='big'>ORDER N°045</font></u>
+        [C]================================
+        [L]<b>BEAUTIFUL SHIRT</b>[R]9.99e
+        [L]  + Size : S
+        [L]
+        [L]<b>AWESOME HAT</b>[R]24.99e
+        [L]  + Size : 57/58
+        [L]
+        [C]--------------------------------
+        [R]TOTAL PRICE :[R]34.98e
+        [R]TAX :[R]4.23e
+        [L]
+        [C]================================
+        [L]
+        [L]<font size='tall'>Customer :</font>
+        [L]John DUPONT
+        [L]5 rue des girafes
+        [L]11111 PERPETES
+        [L]Tel : +111111111
+      </textarea>
+      <div class="text-editor-actions">
+        <button id="btn-print">Print</button>
+      </div>
+    </div>
+
+    <script src="./js/capacitor-welcome.js" type="module"></script>
+
+    <script>
+      (() => {
+        const elements = {
+          textEditor: document.getElementById('text-editor'),
+          btnPrint: document.getElementById('btn-print'),
+        };
+
+        elements.textEditor.style.height = `${window.innerHeight * 0.6}px`;
+
+        elements.btnPrint.addEventListener('click', event => {
+          const target = event.target;
+          const oldText = target.textContent;
+          target.disabled = true;
+          target.textContent = 'Imprimindo...';
+          setTimeout(() => {
+            target.disabled = false;
+            target.textContent = oldText;
+          }, 3e3);
+          Capacitor.Plugins.AndroidEscPos.print({
+            template: elements.textEditor.value
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
